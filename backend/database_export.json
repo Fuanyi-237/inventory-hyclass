@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Expert",
+      "full_name": "Expert User",
+      "email": "expert@inventory.com",
+      "hashed_password": "$2b$12$b5v3Fq/zZq23Rs7A498dd.X1H12DDAzKmxR3MUbr3mYy7BMDIVFrC",
+      "role": "superadmin",
+      "is_active": 1
+    }
+  ],
+  "categories": [],
+  "items": [],
+  "transactions": [],
+  "notifications": []
+}

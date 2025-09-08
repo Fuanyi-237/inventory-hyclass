@@ -1,0 +1,23 @@
+# Git and environment files
+.git
+.gitignore
+.env
+
+# Node.js
+node_modules
+npm-debug.log
+
+# Python
+.venv
+__pycache__
+*.pyc
+
+# IDE and OS files
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+.pytest_cache
+.coverage

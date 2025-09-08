@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Persist uploads and database
+      - ./uploads:/app/uploads
+      - ./backend/inventory_updated.db:/app/inventory_updated.db
+    environment:
+      # Pass environment variables from .env file
+      - DATABASE_URL=sqlite:///./inventory_updated.db
+      - INVENTORY_SECRET_KEY=${INVENTORY_SECRET_KEY}
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      # Expose frontend on port 80
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
