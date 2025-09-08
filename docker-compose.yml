@@ -10,7 +10,8 @@ services:
     volumes:
       # Persist uploads and database
       - ./uploads:/app/uploads
-      - ./backend/inventory_updated.db:/app/inventory_updated.db
+      # inventory_updated.db is at the project root, not under ./backend
+      - ./inventory_updated.db:/app/inventory_updated.db
     environment:
       # Pass environment variables from .env file
       - DATABASE_URL=sqlite:///./inventory_updated.db
@@ -22,8 +23,8 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
     ports:
-      # Expose frontend on port 80
-      - "80:80"
+      # Expose frontend on port 8080 to avoid conflicts with existing services on port 80
+      - "8080:80"
     depends_on:
       - backend
     restart: unless-stopped
