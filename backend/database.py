@@ -18,7 +18,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Initialize the database with all models
 def init_db():
-    from base import Base
+    from backend.base import Base
     Base.metadata.create_all(bind=engine)
 
 # Database dependency
