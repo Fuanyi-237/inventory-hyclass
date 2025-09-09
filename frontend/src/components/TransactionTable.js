@@ -106,7 +106,7 @@ function TransactionTable() {
               <TableCell>{typeof trx.notes === 'string' ? trx.notes : (trx.notes && typeof trx.notes === 'object' ? JSON.stringify(trx.notes) : 'N/A')}</TableCell>
               <TableCell>
                 {trx.image_url && (
-                  <a href={`http://localhost:8000${trx.image_url}`} target="_blank" rel="noopener noreferrer">
+                  <a href={`${trx.image_url}`} target="_blank" rel="noopener noreferrer">
                     View Image
                   </a>
                 )}
