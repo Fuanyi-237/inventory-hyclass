@@ -8,17 +8,17 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
-COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY backend/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy backend code
-COPY backend/ .
+# Copy backend code intact under /app/backend so imports like `from backend import models` work
+COPY backend/ /app/backend/
 
 # Create uploads directory
-RUN mkdir -p uploads
+RUN mkdir -p /app/uploads
 
 # Expose port
 EXPOSE 8000
 
-# Run with uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run with uvicorn using the package path
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
