@@ -1,51 +1,43 @@
-import sqlite3
+from backend.database import SessionLocal
+from backend.models import User
+from backend.shared_enums import UserRole
+from backend.password_utils import get_password_hash
 
-def setup_database():
+
+def setup_admin():
+    db = SessionLocal()
     try:
-        conn = sqlite3.connect('inventory_updated.db')
-        cursor = conn.cursor()
-        
-        # Create users table if it doesn't exist
-        cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT UNIQUE NOT NULL,
-            hashed_password TEXT NOT NULL,
-            full_name TEXT,
-            is_active INTEGER DEFAULT 1,
-            is_superuser INTEGER DEFAULT 0
-        )''')
-        
-        # Check if admin exists
-        cursor.execute("SELECT * FROM users WHERE is_superuser = 1")
-        admin = cursor.fetchone()
-        
-        if admin:
-            print("\n✅ Admin user already exists:")
-            print(f"ID: {admin[0]}")
-            print(f"Email: {admin[1]}")
-            print(f"Name: {admin[3]}")
+        # Check by email
+        existing = db.query(User).filter(User.email == 'admin@example.com').first()
+        if existing:
+            print("✅ Admin user already exists:")
+            print(f"ID: {existing.id}")
+            print(f"Email: {existing.email}")
+            print(f"Name: {existing.full_name}")
             return
-            
-        # Create default admin if none exists
-        print("\nCreating default admin user...")
-        cursor.execute('''
-        INSERT INTO users (email, hashed_password, full_name, is_active, is_superuser)
-        VALUES (?, ?, ?, 1, 1)
-        ''', ('admin@example.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'Admin User'))
-        
-        conn.commit()
+
+        print("Creating default admin user (role=superadmin)...")
+        user = User(
+            username='admin',
+            email='admin@example.com',
+            full_name='Admin User',
+            hashed_password=get_password_hash('password'),
+            role=UserRole.superadmin,
+            is_active=True,
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
         print("✅ Default admin user created!")
         print("Email: admin@example.com")
         print("Password: password")
-        print("\n⚠️ Please change the default password immediately after login!")
-        
+        print("⚠️ Please change the default password immediately after login!")
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        db.rollback()
+        print(f"❌ Error: {e}")
     finally:
-        if conn:
-            conn.close()
+        db.close()
+
 
 if __name__ == "__main__":
-    print("Setting up admin user...")
-    setup_database()
+    setup_admin()

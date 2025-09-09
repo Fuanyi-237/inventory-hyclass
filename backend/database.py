@@ -3,20 +3,17 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 # --- Database Configuration ---
-# Get the absolute path to the directory where this file is located (the backend directory)
+# Prefer DATABASE_URL from environment (e.g., set by docker-compose). Fallback to a local sqlite file
 BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_DB_PATH = os.path.join(BACKEND_DIR, "inventory_updated.db")
 
-# Construct the absolute path to the database file
-DB_PATH = os.path.join(BACKEND_DIR, "inventory_updated.db")
+SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL") or f"sqlite:///{DEFAULT_DB_PATH}"
 
-# Define the SQLAlchemy database URL
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
+print(f"INFO:     Using SQLALCHEMY_DATABASE_URL={SQLALCHEMY_DATABASE_URL}")
 
-print(f"INFO:     Connecting to database at: {DB_PATH}")
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+# sqlite requires a special arg
+connect_args = {"check_same_thread": False} if SQLALCHEMY_DATABASE_URL.startswith("sqlite") else {}
+engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Initialize the database with all models
