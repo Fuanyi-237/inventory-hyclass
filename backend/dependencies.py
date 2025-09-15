@@ -13,7 +13,7 @@ from .services.user_service import UserService
 from .schemas import UserInDB
 
 # OAuth2 scheme for token authentication
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
 
 # Read secrets from environment for production, with a safe fallback for dev
 SECRET_KEY = os.getenv("INVENTORY_SECRET_KEY", os.getenv("SECRET_KEY", "your-secret-key-here"))

@@ -72,7 +72,7 @@ const Navbar = () => {
           >
             Dashboard
           </Button>
-          {user?.role === 'admin' && (
+          {(user?.role === 'admin' || user?.role === 'superadmin' || (typeof user?.role === 'string' && user.role.toLowerCase().includes('admin'))) && (
             <Button 
               component={RouterLink} 
               to="/users"

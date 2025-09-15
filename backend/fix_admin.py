@@ -8,12 +8,20 @@ def setup_admin():
     db = SessionLocal()
     try:
         # Check by email
-        existing = db.query(User).filter(User.email == 'admin@example.com').first()
+        existing = db.query(User).filter(User.username == 'admin').first()
         if existing:
-            print("✅ Admin user already exists:")
-            print(f"ID: {existing.id}")
-            print(f"Email: {existing.email}")
-            print(f"Name: {existing.full_name}")
+            print("✅ Admin user already exists. Ensuring credentials and role are correct…")
+            existing.email = existing.email or 'admin@example.com'
+            existing.full_name = existing.full_name or 'Admin User'
+            existing.hashed_password = get_password_hash('password')
+            existing.role = UserRole.superadmin
+            existing.is_active = True
+            db.add(existing)
+            db.commit()
+            db.refresh(existing)
+            print("🔁 Admin password reset to default and role set to superadmin.")
+            print("Email: admin@example.com")
+            print("Password: password")
             return
 
         print("Creating default admin user (role=superadmin)...")
