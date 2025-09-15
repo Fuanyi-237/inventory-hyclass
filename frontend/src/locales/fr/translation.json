@@ -1,0 +1,80 @@
+{
+  "common": {
+    "dashboard": "Tableau de bord",
+    "userManagement": "Gestion des utilisateurs",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "language": "Langue",
+    "yes": "Oui",
+    "no": "Non",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "actions": "Actions",
+    "id": "ID",
+    "name": "Nom",
+    "description": "Description",
+    "category": "Catégorie",
+    "state": "État",
+    "all": "Tous",
+    "n_a": "N/A"
+  },
+  "login": {
+    "welcome": "Bon retour",
+    "subtitle": "Connectez-vous à votre compte",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "show": "Afficher",
+    "hide": "Masquer",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion...",
+    "needAccess": "Besoin d'accès ? Contactez l'administrateur",
+    "validationMissing": "Veuillez saisir le nom d'utilisateur et le mot de passe",
+    "genericError": "Une erreur s'est produite lors de la connexion. Veuillez réessayer."
+  },
+  "users": {
+    "title": "Gestion des utilisateurs",
+    "createNew": "Créer un utilisateur",
+    "username": "Nom d'utilisateur",
+    "email": "Email",
+    "fullName": "Nom complet",
+    "password": "Mot de passe",
+    "createUser": "Créer",
+    "role": "Rôle",
+    "active": "Actif",
+    "superadmin": "Superadmin",
+    "admin": "Administrateur",
+    "viewer": "Lecteur",
+    "noPermission": "Vous n'avez pas l'autorisation de voir cette page.",
+    "createdMessage": "Utilisateur '{{user}}' créé avec succès !"
+  },
+  "categories": {
+    "title": "Catégories",
+    "editTitle": "Modifier la catégorie"
+  },
+  "items": {
+    "title": "Articles d'inventaire",
+    "searchName": "Rechercher par nom",
+    "confirmDeletion": "Confirmer la suppression",
+    "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer l'article \"{{name}}\" ? Cette action est irréversible.",
+    "createdBy": "Créé par",
+    "lastModifiedBy": "Modifié par",
+    "uniqueId": "ID unique",
+    "location": "Emplacement",
+    "purchaseDate": "Date d'achat",
+    "expiryDate": "Date d'expiration"
+  },
+  "transactions": {
+    "recent": "Transactions récentes",
+    "exportLastWeek": "Exporter la semaine dernière",
+    "action": "Action",
+    "timestamp": "Horodatage",
+    "notes": "Notes",
+    "image": "Image",
+    "sign_in": "Entrée",
+    "sign_out": "Sortie",
+    "viewImage": "Voir l'image",
+    "exportFailed": "Échec de l'exportation"
+  }
+}

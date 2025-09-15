@@ -1,0 +1,80 @@
+{
+  "common": {
+    "dashboard": "Dashboard",
+    "userManagement": "User Management",
+    "login": "Login",
+    "logout": "Logout",
+    "language": "Language",
+    "yes": "Yes",
+    "no": "No",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "actions": "Actions",
+    "id": "ID",
+    "name": "Name",
+    "description": "Description",
+    "category": "Category",
+    "state": "State",
+    "all": "All",
+    "n_a": "N/A"
+  },
+  "login": {
+    "welcome": "Welcome Back",
+    "subtitle": "Sign in to your account",
+    "username": "Username",
+    "password": "Password",
+    "show": "Show",
+    "hide": "Hide",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "needAccess": "Need access? Contact admin",
+    "validationMissing": "Please enter both username and password",
+    "genericError": "An error occurred during login. Please try again."
+  },
+  "users": {
+    "title": "User Management",
+    "createNew": "Create New User",
+    "username": "Username",
+    "email": "Email",
+    "fullName": "Full Name",
+    "password": "Password",
+    "createUser": "Create User",
+    "role": "Role",
+    "active": "Active",
+    "superadmin": "Superadmin",
+    "admin": "Admin",
+    "viewer": "Viewer",
+    "noPermission": "You do not have permission to view this page.",
+    "createdMessage": "User '{{user}}' created successfully!"
+  },
+  "categories": {
+    "title": "Categories",
+    "editTitle": "Edit Category"
+  },
+  "items": {
+    "title": "Inventory Items",
+    "searchName": "Search Name",
+    "confirmDeletion": "Confirm Deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete the item \"{{name}}\"? This action cannot be undone.",
+    "createdBy": "Created By",
+    "lastModifiedBy": "Last Modified By",
+    "uniqueId": "Unique ID",
+    "location": "Location",
+    "purchaseDate": "Purchase Date",
+    "expiryDate": "Expiry Date"
+  },
+  "transactions": {
+    "recent": "Recent Transactions",
+    "exportLastWeek": "Export Last Week",
+    "action": "Action",
+    "timestamp": "Timestamp",
+    "notes": "Notes",
+    "image": "Image",
+    "sign_in": "Sign In",
+    "sign_out": "Sign Out",
+    "viewImage": "View Image",
+    "exportFailed": "Export failed"
+  }
+}

@@ -3,6 +3,7 @@ import { TextField, Button, Box, Alert, Typography, InputAdornment, useTheme } f
 import Logo from '../components/Logo';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -13,6 +14,7 @@ function Login() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ function Login() {
     try {
       // Validate inputs
       if (!username.trim() || !password) {
-        throw new Error('Please enter both username and password');
+        throw new Error(t('login.validationMissing'));
       }
       
       // Attempt login
@@ -43,7 +45,7 @@ function Login() {
       } else if (err.message) {
         errorMessage = err.message;
       } else {
-        errorMessage = 'An error occurred during login. Please try again.';
+        errorMessage = t('login.genericError');
       }
       setError(errorMessage);
     } finally {
@@ -84,10 +86,10 @@ function Login() {
         <Box sx={{ mb: 3, textAlign: 'center' }}>
           <Logo size="medium" variant="vertical" />
           <Typography variant="h5" component="h1" sx={{ mt: 2, fontWeight: 600 }}>
-            Welcome Back
+            {t('login.welcome')}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            Sign in to your account
+            {t('login.subtitle')}
           </Typography>
         </Box>
         
@@ -99,7 +101,7 @@ function Login() {
       
         <TextField
           fullWidth
-          label="Username"
+          label={t('login.username')}
           variant="outlined"
           margin="normal"
           value={username}
@@ -112,7 +114,7 @@ function Login() {
         
         <TextField
           fullWidth
-          label="Password"
+          label={t('login.password')}
           type={showPassword ? 'text' : 'password'}
           variant="outlined"
           margin="normal"
@@ -131,7 +133,7 @@ function Login() {
                     color: 'primary.main',
                   }}
                 >
-                  {showPassword ? 'Hide' : 'Show'}
+                  {showPassword ? t('login.hide') : t('login.show')}
                 </Button>
               </InputAdornment>
             ),
@@ -153,7 +155,7 @@ function Login() {
             fontWeight: 500,
           }}
         >
-          {isLoading ? 'Signing in...' : 'Sign In'}
+          {isLoading ? t('login.signingIn') : t('login.signIn')}
         </Button>
         
         <Box sx={{ mt: 3, textAlign: 'center', width: '100%' }}>
@@ -172,7 +174,7 @@ function Login() {
                 },
               }}
             >
-              Need access? Contact admin
+              {t('login.needAccess')}
             </a>
           </Typography>
         </Box>

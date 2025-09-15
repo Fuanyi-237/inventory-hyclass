@@ -1,12 +1,21 @@
 import React, { useContext } from 'react';
-import { AppBar, Toolbar, Button, Box, Avatar, Typography, Divider, IconButton } from '@mui/material';
+import { AppBar, Toolbar, Button, Box, Avatar, Typography, Divider, IconButton, MenuItem, Select } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import Logo from './Logo';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+
+  const currentLang = i18n.language || 'en';
+  const handleLangChange = (e) => {
+    const lang = e.target.value;
+    i18n.changeLanguage(lang);
+    try { localStorage.setItem('lang', lang); } catch {}
+  };
 
   const handleLogout = () => {
     logout();
@@ -70,7 +79,7 @@ const Navbar = () => {
               }
             }}
           >
-            Dashboard
+            {t('common.dashboard')}
           </Button>
           {(user?.role === 'admin' || user?.role === 'superadmin' || (typeof user?.role === 'string' && user.role.toLowerCase().includes('admin'))) && (
             <Button 
@@ -86,13 +95,23 @@ const Navbar = () => {
                 }
               }}
             >
-              User Management
+              {t('common.userManagement')}
             </Button>
           )}
         </Box>
         
         {user ? (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Select
+              value={currentLang}
+              size="small"
+              onChange={handleLangChange}
+              variant="outlined"
+              sx={{ mr: 1, height: 32 }}
+            >
+              <MenuItem value="en">EN</MenuItem>
+              <MenuItem value="fr">FR</MenuItem>
+            </Select>
             <Box sx={{ 
               display: 'flex', 
               alignItems: 'center', 
@@ -134,11 +153,22 @@ const Navbar = () => {
                 }
               }}
             >
-              Logout
+              {t('common.logout')}
             </Button>
           </Box>
         ) : (
-          <Button 
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Select
+              value={currentLang}
+              size="small"
+              onChange={handleLangChange}
+              variant="outlined"
+              sx={{ height: 32 }}
+            >
+              <MenuItem value="en">EN</MenuItem>
+              <MenuItem value="fr">FR</MenuItem>
+            </Select>
+            <Button 
             variant="contained" 
             component={RouterLink} 
             to="/login"
@@ -152,8 +182,9 @@ const Navbar = () => {
               }
             }}
           >
-            Login
+            {t('common.login')}
           </Button>
+          </Box>
         )}
       </Toolbar>
     </AppBar>
