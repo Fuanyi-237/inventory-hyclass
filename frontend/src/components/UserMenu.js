@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Avatar, Box } from '@mui/material';
 import { AuthContext } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 
 function UserMenu() {
   const { user, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,10 +30,10 @@ function UserMenu() {
     <AppBar position="static" color="default" elevation={1}>
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          Inventory Management
+          {t('common.dashboard')}
         </Typography>
         <Typography variant="h6" sx={{ mr: 2 }}>
-          Welcome, {user.username} ({user.role})
+          {t('common.welcomeUser', { user: user.username, role: user.role })}
         </Typography>
         <IconButton onClick={handleMenu} color="inherit">
           <Avatar>{user.username[0].toUpperCase()}</Avatar>
@@ -43,10 +45,10 @@ function UserMenu() {
         >
           {user.role === 'superadmin' && (
             <MenuItem onClick={() => { navigate('/users'); handleClose(); }}>
-              User Management
+              {t('common.userManagement')}
             </MenuItem>
           )}
-          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          <MenuItem onClick={handleLogout}>{t('common.logout')}</MenuItem>
         </Menu>
       </Toolbar>
     </AppBar>

@@ -3,12 +3,14 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 
 import apiClient from '../api';
 import { AuthContext } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 function CategoryTable({ reload }) {
   const [categories, setCategories] = useState([]);
   const { user } = useContext(AuthContext);
   const [editCat, setEditCat] = useState(null);
   const [editForm, setEditForm] = useState({ name: '', description: '' });
+  const { t } = useTranslation();
 
 
   const fetchCategories = () => {
@@ -37,7 +39,7 @@ function CategoryTable({ reload }) {
     fetchCategories();
   };
   const handleDelete = async (id) => {
-    if (window.confirm('Delete this category?')) {
+    if (window.confirm(t('categories.confirmDelete'))) {
       await apiClient.delete(`/categories/${id}/`);
       fetchCategories();
     }
@@ -45,14 +47,14 @@ function CategoryTable({ reload }) {
 
   return (
     <TableContainer component={Paper} sx={{ mt: 2 }}>
-      <Typography variant="h6" sx={{ p: 2 }}>Categories</Typography>
+      <Typography variant="h6" sx={{ p: 2 }}>{t('categories.title')}</Typography>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell>{t('common.id')}</TableCell>
+            <TableCell>{t('common.name')}</TableCell>
+            <TableCell>{t('common.description')}</TableCell>
+            <TableCell>{t('common.actions')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -61,28 +63,28 @@ function CategoryTable({ reload }) {
               <TableCell>{cat.id}</TableCell>
               <TableCell>{cat.name}</TableCell>
               <TableCell>{
-                !cat.description ? 'N/A' : 
+                !cat.description ? t('common.n_a') : 
                 typeof cat.description === 'object' ? 
-                  (cat.description.name || 'N/A') : 
+                  (cat.description.name || t('common.n_a')) : 
                   String(cat.description)
               }</TableCell>
               <TableCell>
-                <Button color="primary" onClick={() => handleEditOpen(cat)}>Edit</Button>
-                <Button color="error" onClick={() => handleDelete(cat.id)}>Delete</Button>
+                <Button color="primary" onClick={() => handleEditOpen(cat)}>{t('common.edit')}</Button>
+                <Button color="error" onClick={() => handleDelete(cat.id)}>{t('common.delete')}</Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
       <Dialog open={!!editCat} onClose={handleEditClose}>
-        <DialogTitle>Edit Category</DialogTitle>
+        <DialogTitle>{t('categories.editTitle')}</DialogTitle>
         <DialogContent>
-          <TextField label="Name" name="name" value={editForm.name} onChange={handleEditChange} fullWidth margin="normal" />
-          <TextField label="Description" name="description" value={editForm.description || ''} onChange={handleEditChange} fullWidth margin="normal" />
+          <TextField label={t('common.name')} name="name" value={editForm.name} onChange={handleEditChange} fullWidth margin="normal" />
+          <TextField label={t('common.description')} name="description" value={editForm.description || ''} onChange={handleEditChange} fullWidth margin="normal" />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleEditClose}>Cancel</Button>
-          <Button onClick={handleEditSave} variant="contained">Save</Button>
+          <Button onClick={handleEditClose}>{t('common.cancel')}</Button>
+          <Button onClick={handleEditSave} variant="contained">{t('common.save')}</Button>
         </DialogActions>
       </Dialog>
     </TableContainer>

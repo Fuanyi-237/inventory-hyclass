@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Box, Paper, Typography, Button, MenuItem, TextField, Grid, Snackbar, Alert } from '@mui/material';
 import apiClient from '../api';
 import { AuthContext } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 function SignInOutForm({ onTransaction }) {
   const [items, setItems] = useState([]);
@@ -14,6 +15,7 @@ function SignInOutForm({ onTransaction }) {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [imageFile, setImageFile] = useState(null);
   const { user } = useContext(AuthContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     apiClient.get('/items/')
@@ -28,7 +30,7 @@ function SignInOutForm({ onTransaction }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
-      setSnackbar({ open: true, message: 'User not authenticated', severity: 'error' });
+      setSnackbar({ open: true, message: t('auth.notAuthenticated'), severity: 'error' });
       return;
     }
 
@@ -45,7 +47,7 @@ function SignInOutForm({ onTransaction }) {
         });
         imageUrl = response.data.image_url;
       } catch (error) {
-        setSnackbar({ open: true, message: 'Image upload failed. Please try again.', severity: 'error' });
+        setSnackbar({ open: true, message: t('uploads.failed'), severity: 'error' });
         return;
       }
     }
@@ -66,39 +68,39 @@ function SignInOutForm({ onTransaction }) {
       if (fileInput) {
         fileInput.value = null;
       }
-      setSnackbar({ open: true, message: 'Transaction successful', severity: 'success' });
+      setSnackbar({ open: true, message: t('transactions.success'), severity: 'success' });
       if (onTransaction) onTransaction();
     } catch (err) {
-      setSnackbar({ open: true, message: 'Transaction failed', severity: 'error' });
+      setSnackbar({ open: true, message: t('transactions.failed'), severity: 'error' });
     }
   };
 
   return (
     <>
       <Paper sx={{ p: 3, mb: 2 }}>
-        <Typography variant="h6" gutterBottom>Sign In / Out Item</Typography>
+        <Typography variant="h6" gutterBottom>{t('transactions.signInOutTitle')}</Typography>
         <Box component="form" onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>
-              <TextField id="signinout-item" select label="Item" name="item_id" value={form.item_id} onChange={handleChange} fullWidth required>
+              <TextField id="signinout-item" select label={t('items.item') || 'Item'} name="item_id" value={form.item_id} onChange={handleChange} fullWidth required>
                 {items.map(item => <MenuItem key={item.id} value={item.id}>{item.name} ({item.unique_id})</MenuItem>)}
               </TextField>
             </Grid>
             <Grid item xs={12} md={2}>
-              <TextField id="signinout-action" select label="Action" name="action" value={form.action} onChange={handleChange} fullWidth>
-                <MenuItem value="sign_out">Sign Out</MenuItem>
-                <MenuItem value="sign_in">Sign In</MenuItem>
+              <TextField id="signinout-action" select label={t('transactions.action')} name="action" value={form.action} onChange={handleChange} fullWidth>
+                <MenuItem value="sign_out">{t('transactions.sign_out')}</MenuItem>
+                <MenuItem value="sign_in">{t('transactions.sign_in')}</MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12} md={2}>
-              <TextField id="signinout-state" select label="State" name="state" value={form.state} onChange={handleChange} fullWidth>
-                <MenuItem value="good">Good</MenuItem>
-                <MenuItem value="moderate">Moderate</MenuItem>
-                <MenuItem value="bad">Bad</MenuItem>
+              <TextField id="signinout-state" select label={t('common.state')} name="state" value={form.state} onChange={handleChange} fullWidth>
+                <MenuItem value="good">{t('items.state.good')}</MenuItem>
+                <MenuItem value="moderate">{t('items.state.moderate')}</MenuItem>
+                <MenuItem value="bad">{t('items.state.bad')}</MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField id="signinout-notes" label="Notes" name="notes" value={form.notes} onChange={handleChange} fullWidth />
+              <TextField id="signinout-notes" label={t('transactions.notes')} name="notes" value={form.notes} onChange={handleChange} fullWidth />
             </Grid>
             {(form.state === 'moderate' || form.state === 'bad') && (
               <Grid item xs={12}>
@@ -110,13 +112,13 @@ function SignInOutForm({ onTransaction }) {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  label="Upload Image"
-                  helperText="Upload an image if the item condition is moderate or bad."
+                  label={t('uploads.label')}
+                  helperText={t('uploads.helper')}
                 />
               </Grid>
             )}
           </Grid>
-          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Submit</Button>
+          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>{t('common.save')}</Button>
         </Box>
       </Paper>
       <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={() => setSnackbar({ ...snackbar, open: false })}>

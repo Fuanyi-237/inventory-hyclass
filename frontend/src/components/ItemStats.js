@@ -2,10 +2,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Grid, Paper, Typography } from '@mui/material';
 import apiClient from '../api';
 import { AuthContext } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 function ItemStats() {
   const { user } = useContext(AuthContext);
   const [stats, setStats] = useState({ good: 0, moderate: 0, bad: 0 });
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (user) {
@@ -26,19 +28,19 @@ function ItemStats() {
     <Grid container spacing={3}>
       <Grid item xs={12} md={4}>
         <Paper sx={{ p: 2, bgcolor: '#e3f2fd', textAlign: 'center' }}>
-          <Typography variant="h6">Good</Typography>
+          <Typography variant="h6">{t('items.state.good')}</Typography>
           <Typography variant="h4" fontWeight="bold" color="#388e3c">{stats.good}</Typography>
         </Paper>
       </Grid>
       <Grid item xs={12} md={4}>
         <Paper sx={{ p: 2, bgcolor: '#fffde7', textAlign: 'center' }}>
-          <Typography variant="h6">Moderate</Typography>
+          <Typography variant="h6">{t('items.state.moderate')}</Typography>
           <Typography variant="h4" fontWeight="bold" color="#fbc02d">{stats.moderate}</Typography>
         </Paper>
       </Grid>
       <Grid item xs={12} md={4}>
         <Paper sx={{ p: 2, bgcolor: '#ffebee', textAlign: 'center' }}>
-          <Typography variant="h6">Bad</Typography>
+          <Typography variant="h6">{t('items.state.bad')}</Typography>
           <Typography variant="h4" fontWeight="bold" color="#d32f2f">{stats.bad}</Typography>
         </Paper>
       </Grid>

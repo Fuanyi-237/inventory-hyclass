@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Snackbar, Alert } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import apiClient from '../api';
 
 function UserForm({ onUserAdded }) {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
@@ -21,7 +23,7 @@ function UserForm({ onUserAdded }) {
         full_name: fullName,
         password,
       });
-      setSuccess(`User '${response.data.username}' created successfully!`);
+      setSuccess(t('users.createdMessage', { user: response.data.username }));
       setUsername('');
       setEmail('');
       setFullName('');
@@ -36,9 +38,11 @@ function UserForm({ onUserAdded }) {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4 }}>
-      <Typography variant="h6" gutterBottom>Create New User</Typography>
+      <Typography variant="h6" gutterBottom>
+        {t('users.addUser')}
+      </Typography>
       <TextField
-        label="Username"
+        label={t('users.username')}
         variant="outlined"
         fullWidth
         margin="normal"
@@ -47,7 +51,7 @@ function UserForm({ onUserAdded }) {
         required
       />
       <TextField
-        label="Email"
+        label={t('users.email')}
         type="email"
         variant="outlined"
         fullWidth
@@ -57,7 +61,7 @@ function UserForm({ onUserAdded }) {
         required
       />
       <TextField
-        label="Full Name"
+        label={t('users.fullName')}
         variant="outlined"
         fullWidth
         margin="normal"
@@ -65,7 +69,7 @@ function UserForm({ onUserAdded }) {
         onChange={(e) => setFullName(e.target.value)}
       />
       <TextField
-        label="Password"
+        label={t('users.password')}
         type="password"
         variant="outlined"
         fullWidth
@@ -75,7 +79,7 @@ function UserForm({ onUserAdded }) {
         required
       />
       <Button type="submit" variant="contained" color="primary">
-        Create User
+        {t('users.createUser')}
       </Button>
       <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')}>
         <Alert onClose={() => setError('')} severity="error" sx={{ width: '100%' }}>

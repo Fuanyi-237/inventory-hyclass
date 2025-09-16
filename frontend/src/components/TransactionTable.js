@@ -2,9 +2,11 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField, MenuItem, Grid, Box, Button } from '@mui/material';
 import apiClient from '../api';
 import { AuthContext } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 function TransactionTable() {
   const { user } = useContext(AuthContext);
+  const { t } = useTranslation();
   const [transactions, setTransactions] = useState([]);
   const [search, setSearch] = useState({ item_id: '', user_id: '', action: '' });
   const [downloading, setDownloading] = useState(false);
@@ -55,28 +57,28 @@ function TransactionTable() {
   return (
     <TableContainer component={Paper} sx={{ mt: 2 }}>
       <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography variant="h6">Recent Transactions</Typography>
+        <Typography variant="h6">{t('transactions.recent')}</Typography>
         {user && (
           <Button onClick={exportLastWeek} variant="outlined" size="small" disabled={downloading}>
-            {downloading ? 'Exporting…' : 'Export Last Week'}
+            {downloading ? t('transactions.exporting') : t('transactions.exportLastWeek')}
           </Button>
         )}
       </Box>
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
-            <TextField label="Item ID" value={search.item_id} onChange={e => setSearch(s => ({ ...s, item_id: e.target.value }))} fullWidth />
+            <TextField label={t('transactions.filters.itemId')} value={search.item_id} onChange={e => setSearch(s => ({ ...s, item_id: e.target.value }))} fullWidth />
           </Grid>
           {user && user.role !== 'viewer' && (
             <Grid item xs={12} md={4}>
-              <TextField label="User ID" value={search.user_id} onChange={e => setSearch(s => ({ ...s, user_id: e.target.value }))} fullWidth />
+              <TextField label={t('transactions.filters.userId')} value={search.user_id} onChange={e => setSearch(s => ({ ...s, user_id: e.target.value }))} fullWidth />
             </Grid>
           )}
           <Grid item xs={12} md={4}>
-            <TextField select label="Action" value={search.action} onChange={e => setSearch(s => ({ ...s, action: e.target.value }))} fullWidth>
-              <MenuItem value="">All</MenuItem>
-              <MenuItem value="sign_in">Sign In</MenuItem>
-              <MenuItem value="sign_out">Sign Out</MenuItem>
+            <TextField select label={t('transactions.filters.action')} value={search.action} onChange={e => setSearch(s => ({ ...s, action: e.target.value }))} fullWidth>
+              <MenuItem value="">{t('common.all')}</MenuItem>
+              <MenuItem value="sign_in">{t('transactions.sign_in')}</MenuItem>
+              <MenuItem value="sign_out">{t('transactions.sign_out')}</MenuItem>
             </TextField>
           </Grid>
         </Grid>
@@ -84,30 +86,30 @@ function TransactionTable() {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Item ID</TableCell>
-            {user && user.role !== 'viewer' && <TableCell>User ID</TableCell>}
-            <TableCell>Action</TableCell>
-            <TableCell>State</TableCell>
-            <TableCell>Timestamp</TableCell>
-            <TableCell>Notes</TableCell>
-            <TableCell>Image</TableCell>
+            <TableCell>{t('common.id')}</TableCell>
+            <TableCell>{t('transactions.itemId')}</TableCell>
+            {user && user.role !== 'viewer' && <TableCell>{t('transactions.userId')}</TableCell>}
+            <TableCell>{t('transactions.action')}</TableCell>
+            <TableCell>{t('common.state')}</TableCell>
+            <TableCell>{t('transactions.timestamp')}</TableCell>
+            <TableCell>{t('transactions.notes')}</TableCell>
+            <TableCell>{t('transactions.image')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {filtered.slice(-10).reverse().map(trx => (
             <TableRow key={trx.id}>
               <TableCell>{trx.id}</TableCell>
-              <TableCell>{trx.item && typeof trx.item === 'object' && (typeof trx.item.id === 'string' || typeof trx.item.id === 'number') ? trx.item.id : 'N/A'}</TableCell>
-              {user && user.role !== 'viewer' && <TableCell>{trx.user && typeof trx.user === 'object' && (typeof trx.user.id === 'string' || typeof trx.user.id === 'number') ? trx.user.id : 'N/A'}</TableCell>}
+              <TableCell>{trx.item && typeof trx.item === 'object' && (typeof trx.item.id === 'string' || typeof trx.item.id === 'number') ? trx.item.id : t('common.n_a')}</TableCell>
+              {user && user.role !== 'viewer' && <TableCell>{trx.user && typeof trx.user === 'object' && (typeof trx.user.id === 'string' || typeof trx.user.id === 'number') ? trx.user.id : t('common.n_a')}</TableCell>}
               <TableCell>{trx.action}</TableCell>
               <TableCell>{trx.state}</TableCell>
               <TableCell>{trx.timestamp ? new Date(trx.timestamp).toLocaleString() : ''}</TableCell>
-              <TableCell>{typeof trx.notes === 'string' ? trx.notes : (trx.notes && typeof trx.notes === 'object' ? JSON.stringify(trx.notes) : 'N/A')}</TableCell>
+              <TableCell>{typeof trx.notes === 'string' ? trx.notes : (trx.notes && typeof trx.notes === 'object' ? JSON.stringify(trx.notes) : t('common.n_a'))}</TableCell>
               <TableCell>
                 {trx.image_url && (
                   <a href={`${trx.image_url}`} target="_blank" rel="noopener noreferrer">
-                    View Image
+                    {t('transactions.viewImage')}
                   </a>
                 )}
               </TableCell>

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Paper, Typography, Snackbar, Alert } from '@mui/material';
 import apiClient from '../api';
+import { useTranslation } from 'react-i18next';
 
 function CategoryForm({ onCategoryAdded }) {
+  const { t } = useTranslation();
   const [form, setForm] = useState({ name: '', description: '' });
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
@@ -15,21 +17,21 @@ function CategoryForm({ onCategoryAdded }) {
     try {
       await apiClient.post('/categories/', form);
       setForm({ name: '', description: '' });
-      setSnackbar({ open: true, message: 'Category added successfully', severity: 'success' });
+      setSnackbar({ open: true, message: t('categories.addedSuccess'), severity: 'success' });
       if (onCategoryAdded) onCategoryAdded();
     } catch (err) {
-      setSnackbar({ open: true, message: err?.message || String(err) || 'Failed to add category', severity: 'error' });
+      setSnackbar({ open: true, message: err?.message || String(err) || t('categories.addFailed'), severity: 'error' });
     }
   };
 
   return (
     <>
       <Paper sx={{ p: 3, mb: 2 }}>
-        <Typography variant="h6" gutterBottom>Add New Category</Typography>
+        <Typography variant="h6" gutterBottom>{t('categories.addTitle')}</Typography>
         <Box component="form" onSubmit={handleSubmit}>
-          <TextField id="add-category-name" label="Name" name="name" value={form.name} onChange={handleChange} fullWidth margin="normal" required />
-          <TextField id="add-category-description" label="Description" name="description" value={form.description} onChange={handleChange} fullWidth margin="normal" />
-          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>Add Category</Button>
+          <TextField id="add-category-name" label={t('common.name')} name="name" value={form.name} onChange={handleChange} fullWidth margin="normal" required />
+          <TextField id="add-category-description" label={t('common.description')} name="description" value={form.description} onChange={handleChange} fullWidth margin="normal" />
+          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>{t('categories.create')}</Button>
         </Box>
       </Paper>
       <Snackbar open={snackbar.open} autoHideDuration={4000} onClose={() => setSnackbar({ ...snackbar, open: false })}>

@@ -18,7 +18,17 @@
     "category": "Catégorie",
     "state": "État",
     "all": "Tous",
-    "n_a": "N/A"
+    "n_a": "N/A",
+    "welcomeUser": "Bienvenue, {{user}} ({{role}})"
+  },
+  "dashboard": {
+    "title": "Tableau de bord d'inventaire",
+    "tabs": {
+      "items": "Articles",
+      "categories": "Catégories", 
+      "transactions": "Transactions",
+      "userManagement": "Gestion des utilisateurs"
+    }
   },
   "login": {
     "welcome": "Bon retour",
@@ -34,20 +44,23 @@
     "genericError": "Une erreur s'est produite lors de la connexion. Veuillez réessayer."
   },
   "users": {
-    "title": "Gestion des utilisateurs",
-    "createNew": "Créer un utilisateur",
+    "addUser": "Ajouter un utilisateur",
+    "management": "Gestion des utilisateurs",
     "username": "Nom d'utilisateur",
     "email": "Email",
     "fullName": "Nom complet",
     "password": "Mot de passe",
-    "createUser": "Créer",
+    "createUser": "Créer l'utilisateur",
     "role": "Rôle",
     "active": "Actif",
-    "superadmin": "Superadmin",
-    "admin": "Administrateur",
-    "viewer": "Lecteur",
-    "noPermission": "Vous n'avez pas l'autorisation de voir cette page.",
-    "createdMessage": "Utilisateur '{{user}}' créé avec succès !"
+    "id": "ID",
+    "noPermission": "Vous n'avez pas la permission de voir cette page.",
+    "createdMessage": "Utilisateur '{{user}}' créé avec succès !",
+    "roles": {
+      "superadmin": "Super administrateur",
+      "admin": "Administrateur",
+      "viewer": "Observateur"
+    }
   },
   "categories": {
     "title": "Catégories",
@@ -63,11 +76,21 @@
     "uniqueId": "ID unique",
     "location": "Emplacement",
     "purchaseDate": "Date d'achat",
-    "expiryDate": "Date d'expiration"
+    "expiryDate": "Date d'expiration",
+    "create": "Ajouter l'article",
+    "addedSuccess": "Article ajouté avec succès",
+    "addFailed": "Échec de l'ajout de l'article",
+    "state": {
+      "good": "Bon",
+      "moderate": "Moyen",
+      "bad": "Mauvais"
+    },
+    "item": "Article"
   },
   "transactions": {
     "recent": "Transactions récentes",
     "exportLastWeek": "Exporter la semaine dernière",
+    "exporting": "Exportation…",
     "action": "Action",
     "timestamp": "Horodatage",
     "notes": "Notes",
@@ -75,6 +98,24 @@
     "sign_in": "Entrée",
     "sign_out": "Sortie",
     "viewImage": "Voir l'image",
-    "exportFailed": "Échec de l'exportation"
+    "exportFailed": "Échec de l'exportation",
+    "itemId": "ID de l'article",
+    "userId": "ID de l'utilisateur",
+    "filters": {
+      "itemId": "ID de l'article",
+      "userId": "ID de l'utilisateur",
+      "action": "Action"
+    },
+    "signInOutTitle": "Entrée / Sortie d'article",
+    "success": "Transaction réussie",
+    "failed": "Échec de la transaction"
+  },
+  "uploads": {
+    "label": "Télécharger une image",
+    "helper": "Téléchargez une image si l'état de l'article est moyen ou mauvais.",
+    "failed": "Échec du téléversement de l'image. Veuillez réessayer."
+  },
+  "auth": {
+    "notAuthenticated": "Utilisateur non authentifié"
   }
 }

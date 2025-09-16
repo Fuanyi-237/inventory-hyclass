@@ -1,12 +1,15 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, 
-  Typography, Select, MenuItem, FormControl, Box 
+  Button, Select, MenuItem, FormControl, InputLabel, Typography, Box 
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import apiClient from '../api';
 import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
 function UserTable() {
+  const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const { user } = useContext(AuthContext);
 
@@ -27,21 +30,21 @@ function UserTable() {
   };
 
   if (user?.role !== 'superadmin') {
-    return <Typography>You do not have permission to view this page.</Typography>;
+    return <Typography>{t('users.noPermission')}</Typography>;
   }
 
   return (
     <TableContainer component={Paper} sx={{ mt: 2 }}>
-      <Typography variant="h6" sx={{ p: 2 }}>User Management</Typography>
+      <Typography variant="h6" sx={{ p: 2 }}>{t('users.management')}</Typography>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Username</TableCell>
-            <TableCell>Full Name</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Active</TableCell>
+            <TableCell>{t('users.id')}</TableCell>
+            <TableCell>{t('users.username')}</TableCell>
+            <TableCell>{t('users.fullName')}</TableCell>
+            <TableCell>{t('users.email')}</TableCell>
+            <TableCell>{t('users.role')}</TableCell>
+            <TableCell>{t('users.active')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -57,13 +60,13 @@ function UserTable() {
                     value={row.role}
                     onChange={(e) => handleRoleChange(row.id, e.target.value)}
                   >
-                    <MenuItem value="superadmin">Superadmin</MenuItem>
-                    <MenuItem value="admin">Admin</MenuItem>
-                    <MenuItem value="viewer">Viewer</MenuItem>
+                    <MenuItem value="superadmin">{t('users.roles.superadmin')}</MenuItem>
+                    <MenuItem value="admin">{t('users.roles.admin')}</MenuItem>
+                    <MenuItem value="viewer">{t('users.roles.viewer')}</MenuItem>
                   </Select>
                 </FormControl>
               </TableCell>
-              <TableCell>{row.is_active ? 'Yes' : 'No'}</TableCell>
+              <TableCell>{row.is_active ? t('common.yes') : t('common.no')}</TableCell>
             </TableRow>
           ))}
         </TableBody>

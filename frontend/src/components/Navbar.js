@@ -169,21 +169,21 @@ const Navbar = () => {
               <MenuItem value="fr">FR</MenuItem>
             </Select>
             <Button 
-            variant="contained" 
-            component={RouterLink} 
-            to="/login"
-            size="small"
-            sx={{
-              textTransform: 'none',
-              fontWeight: 500,
-              backgroundColor: 'primary.main',
-              '&:hover': {
-                backgroundColor: 'primary.dark'
-              }
-            }}
-          >
-            {t('common.login')}
-          </Button>
+              variant="contained" 
+              component={RouterLink} 
+              to="/login"
+              size="small"
+              sx={{
+                textTransform: 'none',
+                fontWeight: 500,
+                backgroundColor: 'primary.main',
+                '&:hover': {
+                  backgroundColor: 'primary.dark'
+                }
+              }}
+            >
+              {t('common.login')}
+            </Button>
           </Box>
         )}
       </Toolbar>

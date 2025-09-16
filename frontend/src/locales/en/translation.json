@@ -18,7 +18,17 @@
     "category": "Category",
     "state": "State",
     "all": "All",
-    "n_a": "N/A"
+    "n_a": "N/A",
+    "welcomeUser": "Welcome, {{user}} ({{role}})"
+  },
+  "dashboard": {
+    "title": "Inventory Dashboard",
+    "tabs": {
+      "items": "Items",
+      "categories": "Categories",
+      "transactions": "Transactions",
+      "userManagement": "User Management"
+    }
   },
   "login": {
     "welcome": "Welcome Back",
@@ -34,8 +44,8 @@
     "genericError": "An error occurred during login. Please try again."
   },
   "users": {
-    "title": "User Management",
-    "createNew": "Create New User",
+    "addUser": "Add New User",
+    "management": "User Management",
     "username": "Username",
     "email": "Email",
     "fullName": "Full Name",
@@ -43,15 +53,23 @@
     "createUser": "Create User",
     "role": "Role",
     "active": "Active",
-    "superadmin": "Superadmin",
-    "admin": "Admin",
-    "viewer": "Viewer",
+    "id": "ID",
     "noPermission": "You do not have permission to view this page.",
-    "createdMessage": "User '{{user}}' created successfully!"
+    "createdMessage": "User '{{user}}' created successfully!",
+    "roles": {
+      "superadmin": "Superadmin",
+      "admin": "Admin",
+      "viewer": "Viewer"
+    }
   },
   "categories": {
     "title": "Categories",
-    "editTitle": "Edit Category"
+    "editTitle": "Edit Category",
+    "addTitle": "Add New Category",
+    "create": "Add Category",
+    "addedSuccess": "Category added successfully",
+    "addFailed": "Failed to add category",
+    "confirmDelete": "Delete this category?"
   },
   "items": {
     "title": "Inventory Items",
@@ -63,11 +81,21 @@
     "uniqueId": "Unique ID",
     "location": "Location",
     "purchaseDate": "Purchase Date",
-    "expiryDate": "Expiry Date"
+    "expiryDate": "Expiry Date",
+    "create": "Add Item",
+    "addedSuccess": "Item added successfully",
+    "addFailed": "Failed to add item",
+    "state": {
+      "good": "Good",
+      "moderate": "Moderate",
+      "bad": "Bad"
+    },
+    "item": "Item"
   },
   "transactions": {
     "recent": "Recent Transactions",
     "exportLastWeek": "Export Last Week",
+    "exporting": "Exporting…",
     "action": "Action",
     "timestamp": "Timestamp",
     "notes": "Notes",
@@ -75,6 +103,24 @@
     "sign_in": "Sign In",
     "sign_out": "Sign Out",
     "viewImage": "View Image",
-    "exportFailed": "Export failed"
+    "exportFailed": "Export failed",
+    "itemId": "Item ID",
+    "userId": "User ID",
+    "signInOutTitle": "Sign In / Out Item",
+    "success": "Transaction successful",
+    "failed": "Transaction failed",
+    "filters": {
+      "itemId": "Item ID",
+      "userId": "User ID",
+      "action": "Action"
+    }
+  },
+  "uploads": {
+    "label": "Upload Image",
+    "helper": "Upload an image if the item condition is moderate or bad.",
+    "failed": "Image upload failed. Please try again."
+  },
+  "auth": {
+    "notAuthenticated": "User not authenticated"
   }
 }
