@@ -4,11 +4,11 @@ import apiClient from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 
-function TransactionTable() {
+function TransactionTable({ reload }) {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const [transactions, setTransactions] = useState([]);
-  const [search, setSearch] = useState({ item_id: '', user_id: '', action: '' });
+  const [search, setSearch] = useState({ item_name: '', user_name: '', action: '' });
   const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
@@ -17,11 +17,13 @@ function TransactionTable() {
         .then(res => setTransactions(res.data))
         .catch(() => setTransactions([]));
     }
-  }, [user]);
+  }, [user, reload]);
 
   const filtered = transactions.filter(trx => {
-    const itemMatch = !search.item_id || (trx.item && String(trx.item.id) === search.item_id);
-    const userMatch = !search.user_id || (trx.user && String(trx.user.id) === search.user_id);
+    const itemName = trx.item && (trx.item.name || trx.item.unique_id || trx.item.id);
+    const userName = trx.user && (trx.user.username || trx.user.name || trx.user.id);
+    const itemMatch = !search.item_name || (itemName && String(itemName).toLowerCase().includes(search.item_name.toLowerCase()));
+    const userMatch = !search.user_name || (userName && String(userName).toLowerCase().includes(search.user_name.toLowerCase()));
     const actionMatch = !search.action || trx.action === search.action;
     return itemMatch && userMatch && actionMatch;
   });
@@ -67,11 +69,11 @@ function TransactionTable() {
       <Box sx={{ p: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}>
-            <TextField label={t('transactions.filters.itemId')} value={search.item_id} onChange={e => setSearch(s => ({ ...s, item_id: e.target.value }))} fullWidth />
+            <TextField label={t('transactions.filters.itemName') || 'Item name'} value={search.item_name} onChange={e => setSearch(s => ({ ...s, item_name: e.target.value }))} fullWidth />
           </Grid>
           {user && user.role !== 'viewer' && (
             <Grid item xs={12} md={4}>
-              <TextField label={t('transactions.filters.userId')} value={search.user_id} onChange={e => setSearch(s => ({ ...s, user_id: e.target.value }))} fullWidth />
+              <TextField label={t('transactions.filters.userName') || 'User name'} value={search.user_name} onChange={e => setSearch(s => ({ ...s, user_name: e.target.value }))} fullWidth />
             </Grid>
           )}
           <Grid item xs={12} md={4}>

@@ -65,7 +65,7 @@ function Login() {
         alignItems: 'center',
         justifyContent: 'center',
         bgcolor: 'background.default',
-        p: 2,
+        p: { xs: 2, sm: 3, md: 4 },
       }}
     >
       <Box
@@ -73,8 +73,8 @@ function Login() {
         onSubmit={handleSubmit}
         sx={{
           width: '100%',
-          maxWidth: 400,
-          p: 3,
+          maxWidth: { xs: '100%', sm: 420, md: 520 },
+          p: { xs: 2.5, sm: 3, md: 4 },
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

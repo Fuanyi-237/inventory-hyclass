@@ -48,6 +48,7 @@ function Dashboard() {
   const { user } = useContext(AuthContext);
   const [reload, setReload] = useState(false);
   const [catReload, setCatReload] = useState(false);
+  const [transReload, setTransReload] = useState(false);
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -60,6 +61,10 @@ function Dashboard() {
 
   const handleCategoryAdded = () => {
     setCatReload(r => !r);
+  };
+
+  const handleTransactionMade = () => {
+    setTransReload(r => !r);
   };
 
   return (
@@ -113,11 +118,11 @@ function Dashboard() {
           <TabPanel value={tabValue} index={2}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <TransactionTable />
+                <TransactionTable reload={transReload} />
               </Grid>
               {user && user.role !== 'viewer' && (
                 <Grid item xs={12}>
-                  <SignInOutForm />
+                  <SignInOutForm onTransaction={handleTransactionMade} />
                 </Grid>
               )}
             </Grid>
