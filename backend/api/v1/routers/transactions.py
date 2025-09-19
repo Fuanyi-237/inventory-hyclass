@@ -2,7 +2,7 @@ from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from fastapi.responses import StreamingResponse
 import io
-import csv
+from openpyxl import Workbook
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.orm import Session
 
@@ -43,7 +43,7 @@ def export_transactions(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Export transactions within a date range as CSV.
+    """Export transactions within a date range as an Excel (.xlsx) file.
 
     If no range is provided, defaults to the last 7 days.
     Accessible to any authenticated user.
@@ -63,14 +63,15 @@ def export_transactions(
     service = TransactionService(db)
     transactions = service.get_by_date_range(start_dt, end_dt)
 
-    # Prepare CSV in-memory
-    output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow([
+    # Prepare Excel workbook in-memory
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Transactions"
+    ws.append([
         "id", "item_id", "item_unique_id", "user_id", "username", "action", "state", "timestamp", "notes", "image_url",
     ])
     for t in transactions:
-        writer.writerow([
+        ws.append([
             t.id,
             getattr(t, 'item_id', ''),
             getattr(getattr(t, 'item', None), 'unique_id', '') if getattr(t, 'item', None) else '',
@@ -83,9 +84,15 @@ def export_transactions(
             getattr(t, 'image_url', ''),
         ])
 
+    output = io.BytesIO()
+    wb.save(output)
     output.seek(0)
-    filename = f"transactions_{start_dt.date()}_{end_dt.date()}.csv"
+    filename = f"transactions_{start_dt.date()}_{end_dt.date()}.xlsx"
     headers = {
         "Content-Disposition": f"attachment; filename=\"{filename}\""
     }
-    return StreamingResponse(iter([output.getvalue()]), media_type="text/csv", headers=headers)
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers=headers,
+    )

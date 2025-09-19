@@ -38,11 +38,11 @@ function TransactionTable() {
         params: { start: startISO, end: endISO },
         responseType: 'blob',
       });
-      const blob = new Blob([response.data], { type: 'text/csv' });
+      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `transactions_${startISO.slice(0,10)}_${endISO.slice(0,10)}.csv`;
+      a.download = `transactions_${startISO.slice(0,10)}_${endISO.slice(0,10)}.xlsx`;
       document.body.appendChild(a);
       a.click();
       a.remove();
