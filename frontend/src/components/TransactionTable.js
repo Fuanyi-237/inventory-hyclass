@@ -40,11 +40,15 @@ function TransactionTable({ reload }) {
         params: { start: startISO, end: endISO },
         responseType: 'blob',
       });
-      const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const contentType = response.headers && (response.headers['content-type'] || response.headers['Content-Type']);
+      const isExcel = contentType && contentType.includes('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      const blobType = isExcel ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' : 'text/csv';
+      const extension = isExcel ? 'xlsx' : 'csv';
+      const blob = new Blob([response.data], { type: blobType });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `transactions_${startISO.slice(0,10)}_${endISO.slice(0,10)}.xlsx`;
+      a.download = `transactions_${startISO.slice(0,10)}_${endISO.slice(0,10)}.${extension}`;
       document.body.appendChild(a);
       a.click();
       a.remove();
