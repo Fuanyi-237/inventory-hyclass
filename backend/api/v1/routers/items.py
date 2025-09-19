@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from backend.dependencies import get_db, get_current_user
 from backend.services.item_service import ItemService
-from backend.schemas import ItemRead, ItemCreate
+from backend.schemas import ItemRead, ItemCreate, ItemUpdate
 from backend.models import User
 from backend.shared_enums import UserRole
 
@@ -26,6 +26,20 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db), current_user: U
         )
     item_service = ItemService(db)
     return item_service.create(item=item, user_id=current_user.id)
+
+@router.put("/{item_id}", response_model=ItemRead)
+def update_item(item_id: int, item_update: ItemUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """Update an item."""
+    if current_user.role not in [UserRole.admin, UserRole.superadmin]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only admins and superadmins can update items."
+        )
+    item_service = ItemService(db)
+    updated_item = item_service.update(item_id=item_id, item_update=item_update, user_id=current_user.id)
+    if not updated_item:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return updated_item
 
 @router.delete("/{item_id}", response_model=ItemRead)
 def delete_item(item_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):

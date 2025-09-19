@@ -85,6 +85,9 @@
     "create": "Add Item",
     "addedSuccess": "Item added successfully",
     "addFailed": "Failed to add item",
+    "editTitle": "Edit Item",
+    "editSuccess": "Item updated successfully",
+    "editFailed": "Failed to update item",
     "state": {
       "good": "Good",
       "moderate": "Moderate",

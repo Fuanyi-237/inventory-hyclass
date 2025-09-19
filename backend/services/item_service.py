@@ -22,6 +22,19 @@ class ItemService(BaseService[Item, ItemCreate, ItemUpdate]):
         db_objs = self.repository.get_all_items(skip=skip, limit=limit)
         return [self._convert_to_read_model(db_obj) for db_obj in db_objs]
 
+    def update(self, item_id: int, item_update: ItemUpdate, user_id: int) -> ItemRead:
+        """Update an item."""
+        db_obj = self.repository.get(item_id)
+        if not db_obj:
+            return None
+        
+        # Add last_modified_by to the update data
+        update_data = item_update.model_dump(exclude_unset=True)
+        update_data['last_modified_by'] = user_id
+        
+        updated_obj = self.repository.update(db_obj=db_obj, obj_in=update_data)
+        return self._convert_to_read_model(updated_obj)
+
     def delete(self, item_id: int) -> ItemRead:
         """Delete an item."""
         db_obj = self.repository.remove(id=item_id)

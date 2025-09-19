@@ -80,6 +80,9 @@
     "create": "Ajouter l'article",
     "addedSuccess": "Article ajouté avec succès",
     "addFailed": "Échec de l'ajout de l'article",
+    "editTitle": "Modifier l'article",
+    "editSuccess": "Article mis à jour avec succès",
+    "editFailed": "Échec de la mise à jour de l'article",
     "state": {
       "good": "Bon",
       "moderate": "Moyen",
